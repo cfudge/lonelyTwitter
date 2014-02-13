@@ -26,6 +26,20 @@ public class LonelyTwitterActivity extends Activity {
 	private ArrayList<NormalTweetModel> tweets;
 	private ArrayAdapter<NormalTweetModel> adapter;
 	
+	
+	public ArrayAdapter<NormalTweetModel> getAdapter()
+	{
+	
+		return adapter;
+	}
+
+	
+	public void setAdapter(ArrayAdapter<NormalTweetModel> adapter)
+	{
+	
+		this.adapter = adapter;
+	}
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

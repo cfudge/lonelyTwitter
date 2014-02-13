@@ -1,13 +1,16 @@
 package ca.ualberta.cs.lonelytwitter.test;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import ca.ualberta.cs.lonelytwitter.LonelyTweetModel;
 import ca.ualberta.cs.lonelytwitter.LonelyTwitterActivity;
 import ca.ualberta.cs.lonelytwitter.NormalTweetModel;
 
@@ -15,6 +18,7 @@ import ca.ualberta.cs.lonelytwitter.NormalTweetModel;
  * generate this class with new.. JUnit Test Case
  * set superclass to ActivityInstrumentationTestCase2
  */
+@SuppressLint("NewApi")
 public class LonelyTwitterActivityUITest extends
 		ActivityInstrumentationTestCase2<LonelyTwitterActivity> {
 
@@ -34,6 +38,25 @@ public class LonelyTwitterActivityUITest extends
 		textInput = ((EditText) activity.findViewById(ca.ualberta.cs.lonelytwitter.R.id.body));
 	}
 	
+	public void testMakeTweet() throws Throwable{
+		runTestOnUiThread(new Runnable() {
+			@Override
+			public void run(){
+				LonelyTwitterActivity activity = getActivity();
+				int old_length = activity.getAdapter().getCount();
+
+				makeTweet("#YOLO");
+				ArrayAdapter<NormalTweetModel> adapter = activity.getAdapter();
+				assertEquals("array adapter is the wrong length!", old_length+1, adapter.getCount());
+				assertEquals("added thing is not NormalTweetModel", true, (adapter.getItem(adapter.getCount() - 1) instanceof NormalTweetModel));
+				NormalTweetModel tweet = adapter.getItem(adapter.getCount() - 1);
+				assertEquals("Tweet text is not correct.", tweet.getText(), "#YOLO");
+				
+			}
+			
+		});
+//		makeTweet("TDD 4 LYFE #YOLO");
+	}
 	/*
 	 * fills in the input text field and clicks the 'save'
 	 * button for the activity under test
